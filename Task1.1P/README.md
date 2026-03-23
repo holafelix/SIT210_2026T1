@@ -1,3 +1,3 @@
-This project is an Arduino-based smart lighting system designed for an elderly care scenario. When the switch is activated, the porch light turns on for 30 seconds and the hallway light turns on for 60 seconds to improve safety when entering the house at night.
+This project is an Arduino-based smart lighting system designed for an elderly care scenario. When the switch is activated, the porch light turns on for 30 seconds and the hallway light turns on for 60 seconds to improve safety.
 
-The program is structured using modular programming by dividing the system into different functions. The switch detection function checks when the switch is activated. The main lighting function controls the sequence and timing of the lights. Separate helper functions are used to turn the lights on and off individually. This structure makes the code easier to understand, modify, and maintain.
+The program is organised using the setup() and loop() functions. It detects the switch input by comparing the current and previous states, then controls the timing and sequence of the lights. This structure makes the code easier to understand and modify.
