@@ -10,19 +10,30 @@ void setup() {
   pinMode(switchPin, INPUT_PULLUP);
 }
 
+bool isSwitchPressed(int currentState) {
+  return (lastState == HIGH && currentState == LOW);
+}
+
+void turnLightsOn() {
+  digitalWrite(porchLight, HIGH);
+  digitalWrite(hallwayLight, HIGH);
+}
+
+void controlLights() {
+  turnLightsOn();
+
+  delay(30000); 
+  digitalWrite(porchLight, LOW);
+
+  delay(30000); 
+  digitalWrite(hallwayLight, LOW);
+}
+
 void loop() {
   int currentState = digitalRead(switchPin);
 
-  if (lastState == HIGH && currentState == LOW) {
-
-    digitalWrite(porchLight, HIGH);
-    digitalWrite(hallwayLight, HIGH);
-
-    delay(30000); 
-    digitalWrite(porchLight, LOW); 
-
-    delay(30000); 
-    digitalWrite(hallwayLight, LOW); 
+  if (isSwitchPressed(currentState)) {
+    controlLights();
   }
 
   lastState = currentState;
