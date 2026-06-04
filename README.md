@@ -44,8 +44,6 @@ finishing with speech recognition over Bluetooth.
 | **6.1P** | Project Pitch | The assisted-living node concept: interrupt motion lighting **+** an inactivity alert for a carer **+** cloud logging to ThingSpeak. |
 | **8.1HD** | Voice Control | The Pi runs offline speech recognition (**Vosk**) and sends commands ("lights on/off", "fan on/off") to the Nano over **Bluetooth LE**. |
 
-> Grade tiers follow the task code: **P** = Pass, **C** = Credit, **D** = Distinction, **HD** = High Distinction.
-
 ## Repo structure
 
 Each task lives in its own folder with its sketch (`.ino`) or Python file inside.
