@@ -78,11 +78,6 @@ SIT210_2026T1/
 2. Install what it needs (`gpiozero` for the GUIs; `vosk`, `sounddevice`, `bleak` for voice control).
 3. Run with `python3 <file>.py`.
 
-## Notes
-
-- This is coursework, written at a student level on purpose — readable over clever.
-- AI tools were used to help build and learn these tasks, declared in line with Deakin's GenAI
-  and academic integrity requirements where the unit asks for it.
 
 ---
 
