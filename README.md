@@ -4,63 +4,85 @@
 
 ![Board](https://img.shields.io/badge/Board-Arduino%20Nano%2033%20IoT-00979D)
 ![MCU](https://img.shields.io/badge/MCU-SAMD21-blue)
+![Also](https://img.shields.io/badge/Also-Raspberry%20Pi-c51a4a)
+![Language](https://img.shields.io/badge/Language-C%2B%2B%20%7C%20Python-orange)
 ![IDE](https://img.shields.io/badge/Built%20with-Arduino%20IDE-teal)
-![Language](https://img.shields.io/badge/Language-C%2B%2B-orange)
 
-This repo holds my weekly tasks for **SIT210 Embedded Systems Development**. Each task is a small,
-self-contained embedded project sensing the environment, reacting to inputs, and (where the task
-asks for it) pushing data to the web. Everything runs on an **Arduino Nano 33 IoT** breadboarded
-with a handful of sensors, LEDs, and switches.
+This repo is my weekly task portfolio for **SIT210 Embedded Systems Development**. Each task is a
+small embedded project, and together they build up into one bigger idea: a **smart assisted-living
+home** that helps an elderly resident by automating lights, sensing the environment, talking to the
+cloud, and reacting to motion, gestures, and even voice.
 
-The point of the unit is to go from "make an LED blink" up to interrupt-driven sensing and
-IoT-connected devices, so the tasks get a bit more involved as they go.
+The tasks roughly follow the unit's weekly topics — starting from basic GPIO and modular code, then
+moving through serial/I2C, web services, MQTT, interrupts, web control, Raspberry Pi GUIs, and
+finishing with speech recognition over Bluetooth.
 
-## Hardware I'm using
+## Hardware used across the tasks
 
-- Arduino Nano 33 IoT (SAMD21)
-- BH1750 ambient light sensor (I2C, 3V3)
-- HC-SR501 PIR motion sensor (needs 5V from VUSB)
-- DHT temperature sensor
-- SPDT slide switch
-- LEDs + 220Ω resistors, breadboard, jumper wires
+- **Arduino Nano 33 IoT** (SAMD21, built-in WiFi + BLE) — main microcontroller
+- **Raspberry Pi** — used for the GUI and voice-control tasks
+- BH1750 ambient light sensor (I2C)
+- HC-SR501 PIR motion sensor
+- HC-SR04 ultrasonic distance sensor
+- DHT11 temperature/humidity sensor
+- LDR (photoresistor) for analogue light reading
+- USB microphone (for voice control)
+- SPDT slide switch, LEDs + 220Ω resistors, breadboard, jumper wires
 
 ## Tasks
 
 | Task | Title | What it does |
 |------|-------|--------------|
-| **1.1P** | Switching ON Lights | A porch + hallway lighting system driven by a slide switch, written with a **modular programming** approach (small helper functions instead of one big `loop()`). |
-| **2.1P** | Temperature & Light to the Web | Reads temperature and ambient light, then pushes the data to **ThingSpeak** over WiFi so it shows up on an online dashboard. |
-| **4.1P** | Interrupt-Based Lighting | A motion-activated lighting system using **hardware interrupts** — a PIR sensor + BH1750 (lights only come on in the dark) with a slide switch as a manual backup. |
+| **1.1P** | Switching ON Lights | Switch-triggered porch + hallway lights written with a **modular** approach (small helper functions instead of one big `loop()`). |
+| **2.1P** | Temperature & Light to the Web | Reads a DHT11 and a light sensor, then pushes both to **ThingSpeak** over WiFi for an online dashboard. |
+| **3.1P** | Sensor Trigger / Notification | A BH1750 watches the light level and fires an **IFTTT webhook** when it crosses a threshold (e.g. sunlight on/off). |
+| **3.3C** | Network of Things (MQTT) | An ultrasonic sensor detects "wave" vs "pat" gestures and publishes them over **MQTT**; subscribers switch LEDs on/off. |
+| **4.1P** | Interrupt-Based Lighting | Motion lighting driven entirely by **hardware interrupts** — PIR + BH1750 so lights only come on in the dark, with a slide switch as a manual backup. |
+| **4.2D** | Web-Controlled Lights | The Nano runs a small **web server** that serves a page to toggle the living room, bathroom, and closet lights from a browser. |
+| **5.1P** | Raspberry Pi GUI | A **tkinter** desktop GUI on the Pi using `gpiozero` to pick which room light is on. |
+| **5.2** | Pi GUI with Dimming | Adds a brightness **PWM** slider for the living room plus checkboxes for the other lights. |
+| **6.1P** | Project Pitch | The assisted-living node concept: interrupt motion lighting **+** an inactivity alert for a carer **+** cloud logging to ThingSpeak. |
+| **8.1HD** | Voice Control | The Pi runs offline speech recognition (**Vosk**) and sends commands ("lights on/off", "fan on/off") to the Nano over **Bluetooth LE**. |
 
-> More tasks get added here as I work through the trimester.
+> Grade tiers follow the task code: **P** = Pass, **C** = Credit, **D** = Distinction, **HD** = High Distinction.
 
 ## Repo structure
 
-Each task lives in its own folder. Folder and sketch names use underscores (not dots) so the
-Arduino IDE handles the files properly.
+Each task lives in its own folder with its sketch (`.ino`) or Python file inside.
 
 ```
 SIT210_2026T1/
-├── Task1_1Lights/          # Task 1.1P
-├── Task2_1WebData/         # Task 2.1P
-├── Task4_1Interrupts/      # Task 4.1P
+├── Task1.1P/                  # 1.1P  Switching ON Lights (.ino)
+├── Task2.1WebHook/            # 2.1P  Temperature & Light to the Web (.ino)
+├── Task3.1Trigger/            # 3.1P  Sensor trigger via IFTTT (.ino)
+├── Task3.3CMQTT/              # 3.3C  MQTT gesture control (.ino)
+├── Task4.1Interrupts/         # 4.1P  Interrupt-based lighting (.ino)
+├── Task4.2DCloudFunction/     # 4.2D  Web-controlled lights (.ino)
+├── Task5.1GUI/                # 5.1P  Raspberry Pi tkinter GUI (.py)
+├── Task5.2GUI/                # 5.2   Pi GUI with PWM dimming (.py)
+├── Task6.1ProjectPitch/       # 6.1P  Project pitch node (.ino)
+├── Task8.1HDAudioProcessing/  # 8.1HD Voice control over BLE (.py)
 └── README.md
 ```
 
-(Folder names match the actual sketch folders in the repo.)
+## Running the tasks
 
-## How to run any task
+**Arduino tasks (`.ino`)**
+1. Open the sketch in the Arduino IDE.
+2. Install any libraries via **Tools → Manage Libraries** (common ones used here: `WiFiNINA`,
+   `ThingSpeak`, `BH1750`, `DHT sensor library`, `ArduinoMqttClient`).
+3. Select **Arduino Nano 33 IoT** and the correct COM port, wire up the components, then upload.
 
-1. Open the task's `.ino` file in the Arduino IDE.
-2. Install any libraries the task needs via **Tools → Manage Libraries** (each task notes what it uses).
-3. Select **Arduino Nano 33 IoT** as the board and the right COM port.
-4. Wire up the components per that task's pin table, then upload.
+**Raspberry Pi tasks (`.py`)**
+1. Copy the script to the Pi.
+2. Install what it needs (`gpiozero` for the GUIs; `vosk`, `sounddevice`, `bleak` for voice control).
+3. Run with `python3 <file>.py`.
 
 ## Notes
 
-- This is coursework — it's written at a student level on purpose, not as production code.
-- AI tools were used to help while building and learning these tasks, declared in line with
-  Deakin's GenAI and academic integrity requirements where the unit asks for it.
+- This is coursework, written at a student level on purpose — readable over clever.
+- AI tools were used to help build and learn these tasks, declared in line with Deakin's GenAI
+  and academic integrity requirements where the unit asks for it.
 
 ---
 
