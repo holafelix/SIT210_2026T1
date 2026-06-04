@@ -8,7 +8,7 @@
 ![Language](https://img.shields.io/badge/Language-C%2B%2B-orange)
 
 This repo holds my weekly tasks for **SIT210 Embedded Systems Development**. Each task is a small,
-self-contained embedded project — sensing the environment, reacting to inputs, and (where the task
+self-contained embedded project sensing the environment, reacting to inputs, and (where the task
 asks for it) pushing data to the web. Everything runs on an **Arduino Nano 33 IoT** breadboarded
 with a handful of sensors, LEDs, and switches.
 
